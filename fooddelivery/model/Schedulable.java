@@ -1,16 +1,17 @@
-package fooddelivery.model;
-
 public interface Schedulable {
-
-    String getId();
-
-    String getName();
-
     int getDeadline();
+    int getProfit();
+}
+public class Order implements Schedulable {
+    
 
-    double getProfit();
+    @Override
+    public int getDeadline() {
+        return deadline;
+    }
 
-    int getProcessingTime();
-
-    String getSummary();
+    @Override
+    public int getProfit() {
+        return profit;
+    }
 }
