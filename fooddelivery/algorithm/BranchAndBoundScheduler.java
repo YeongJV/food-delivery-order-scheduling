@@ -13,7 +13,7 @@ public class BranchAndBoundScheduler extends AbstractJobScheduler {
 
     @Override
     public String getTimeComplexity() {
-        return "O(2^n)";
+        return "O(2^n) worst case, but faster in practice due to pruning";
     }
 
     @Override
@@ -43,6 +43,7 @@ public class BranchAndBoundScheduler extends AbstractJobScheduler {
         while (!pq.isEmpty()) {
             Node current = pq.poll();
 
+            // Skip node if it cannot improve current best
             if (current.bound <= bestProfit) continue;
 
             int next = current.level + 1;
