@@ -5,9 +5,18 @@ import java.util.*;
 
 public class DynamicProgrammingScheduler extends AbstractJobScheduler {
 
-    @Override public String getAlgorithmName()  { return "Dynamic Programming (DP Table)"; }
-    @Override public String getTimeComplexity() { return "O(n x D), D = max deadline"; }
-    @Override public String getDescription()    {
+    @Override 
+    public String getAlgorithmName()  { 
+        return "Dynamic Programming (DP Table)"; 
+    }
+    
+    @Override 
+    public String getTimeComplexity() { 
+        return "O(n x D), D = max deadline"; 
+    }
+    
+    @Override 
+    public String getDescription()    {
         return "Builds a 2D table dp[i][t] bottom-up. " +
                "Each cell stores the best profit using the first i orders in t slots. " +
                "Backtracks through the table to find the selected orders.";
