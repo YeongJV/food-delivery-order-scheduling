@@ -1,53 +1,42 @@
+package fooddelivery.algorithm;
+
+import fooddelivery.model.Schedulable;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-public class GreedyJobSequencing extends AbstractJobSequencing {
+public class GreedyJobSequencing extends AbstractJobScheduler {
 
     @Override
-    public String getStrategyName() {
-        return "Greedy Job Sequencing";
-    }
+    protected AlgorithmOutput runAlgorithm(List<? extends Schedulable> orders) {
+        List<Schedulable> jobs = sortByProfitDescending(orders);
+        int maxSlots = getMaxDeadline(jobs);
 
-    @Override
-    public JobResult scheduleJobs(List<Job> jobs) {
-        JobResult result = new JobResult();
+        Schedulable[] slots = new Schedulable[maxSlots + 1];
 
-        if (jobs == null || jobs.isEmpty()) {
-            return result;
-        }
-
-        List<Job> sortedJobs = new ArrayList<>(jobs);
-        sortedJobs.sort(Comparator.comparingInt(Job::getProfit).reversed());
-
-        int maxDeadline = getMaxDeadline(sortedJobs);
-
-        Job[] slots = new Job[maxDeadline];
-
-        for (Job job : sortedJobs) {
-            boolean assigned = false;
-
-            // Try to place the job in the latest available slot
-            for (int i = Math.min(job.getDeadline(), maxDeadline) - 1; i >= 0; i--) {
+        for (Schedulable job : jobs) {
+            for (int i = Math.min(job.getDeadline(), maxSlots); i >= 1; i--) {
                 if (slots[i] == null) {
                     slots[i] = job;
-                    assigned = true;
                     break;
                 }
             }
-
-            if (!assigned) {
-                result.addUnselectedJob(job);
-            }
         }
 
-        // Collect selected jobs in slot order
-        for (Job slotJob : slots) {
-            if (slotJob != null) {
-                result.addSelectedJob(slotJob);
-            }
+        List<Schedulable> selected = new ArrayList<>();
+        for (Schedulable s : slots) {
+            if (s != null) selected.add(s);
         }
+        return new AlgorithmOutput(selected);
+    }
 
-        return result;
+    @Override
+    public String getAlgorithmName() { return "Greedy Job Sequencing"; }
+
+    @Override
+    public String getTimeComplexity() { return "O(n^2)"; }
+
+    @Override
+    public String getDescription() {
+        return "Greedy algorithm that sequences jobs by highest profit, filling the latest available slot before each deadline.";
     }
 }
