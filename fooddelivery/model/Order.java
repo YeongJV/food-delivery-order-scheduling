@@ -1,34 +1,84 @@
-public class Order {
-    private String id;
-    private String description;
-    private int deadline;
-    private int profit;
+package fooddelivery.model;
 
-    public Order(String id, String description, int deadline, int profit) {
-        this.id = id;
-        this.description = description;
-        this.deadline = deadline;
-        this.profit = profit;
+public class Order implements Schedulable {
+    private final String orderId;
+    private final String customerName;
+    private final String foodItem;
+    private final int deadline;
+    private final double profit;
+    private final int processingTime;
+    private final String priority;
+
+    public Order(String orderId,
+                 String customerName,
+                 String foodItem,
+                 int    deadline,
+                 double profit,
+                 int    processingTime,
+                 String priority) {
+
+        if (orderId == null || orderId.isBlank())
+            throw new IllegalArgumentException("Order ID cannot be empty.");
+        if (deadline <= 0)
+            throw new IllegalArgumentException("Deadline must be > 0. Got: " + deadline);
+        if (profit < 0)
+            throw new IllegalArgumentException("Profit cannot be negative. Got: " + profit);
+        if (processingTime <= 0)
+            throw new IllegalArgumentException("Processing time must be > 0.");
+
+        this.orderId        = orderId.trim();
+        this.customerName   = (customerName != null) ? customerName.trim() : "Unknown";
+        this.foodItem       = (foodItem     != null) ? foodItem.trim()     : "Unknown Item";
+        this.deadline       = deadline;
+        this.profit         = profit;
+        this.processingTime = processingTime;
+        this.priority       = (priority != null) ? priority.toUpperCase().trim() : "MEDIUM";
     }
 
+    public Order(String orderId, String customerName,
+                 String foodItem, int deadline, double profit) {
+        this(orderId, customerName, foodItem, deadline, profit, 1, "MEDIUM");
+    }
+
+
+    @Override
     public String getId() {
-        return id;
+        return orderId;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return customerName;
     }
 
+    public String getFood() {
+        return foodItem;
+    }
+
+    @Override
     public int getDeadline() {
         return deadline;
     }
 
-    public int getProfit() {
+    @Override
+    public double getProfit() {
         return profit;
     }
 
     @Override
-    public String toString() {
-        return id + " | " + description + " | Deadline: " + deadline + " | Profit: " + profit;
+    public int getProcessingTime() {
+        return processingTime;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    @Override
+    public String getSummary() {
+        return orderId + " | " + customerName + " | " + foodItem +
+               " | Deadline: " + deadline +
+               " | Profit: " + profit +
+               " | Time: " + processingTime +
+               " | Priority: " + priority;
     }
 }
