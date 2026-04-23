@@ -1,7 +1,6 @@
 package fooddelivery.algorithm;
 
 import fooddelivery.model.Schedulable;
-import java.util.Collections;
 import java.util.List;
 
 public class SchedulingResult {
@@ -12,31 +11,35 @@ public class SchedulingResult {
     private final double totalProfit;
     private final long executionTimeNs;
 
-    public SchedulingResult(String name,
-                            List<Schedulable> selected,
-                            List<Schedulable> unselected,
-                            double profit,
-                            long time) {
-        this.algorithmName = name;
-        this.selectedOrders = Collections.unmodifiableList(selected);
-        this.unselectedOrders = Collections.unmodifiableList(unselected);
-        this.totalProfit = profit;
-        this.executionTimeNs = time;
+    public SchedulingResult(String algorithmName,
+                            List<Schedulable> selectedOrders,
+                            List<Schedulable> unselectedOrders,
+                            double totalProfit,
+                            long executionTimeNs) {
+        this.algorithmName = algorithmName;
+        this.selectedOrders = selectedOrders;
+        this.unselectedOrders = unselectedOrders;
+        this.totalProfit = totalProfit;
+        this.executionTimeNs = executionTimeNs;
     }
 
-    public String getAlgorithmName() { 
-        return algorithmName; 
+    public String getAlgorithmName() {
+        return algorithmName;
     }
-    public List<Schedulable> getSelectedOrders() { 
-        return selectedOrders; 
+
+    public List<Schedulable> getSelectedOrders() {
+        return selectedOrders;
     }
-    public List<Schedulable> getUnselectedOrders() { 
-        return unselectedOrders; 
+
+    public List<Schedulable> getUnselectedOrders() {
+        return unselectedOrders;
     }
-    public double getTotalProfit() { 
-        return totalProfit; 
+
+    public double getTotalProfit() {
+        return totalProfit;
     }
-    public long getExecutionTimeNs() { 
-        return executionTimeNs; 
+
+    public long getExecutionTimeNs() {
+        return executionTimeNs;
     }
 }
