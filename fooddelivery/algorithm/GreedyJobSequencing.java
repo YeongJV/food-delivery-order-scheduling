@@ -14,6 +14,7 @@ public class GreedyJobSequencing extends AbstractJobScheduler {
         Schedulable[] slots = new Schedulable[maxSlots + 1];
 
         for (Schedulable job : jobs) {
+            // Try to place job in latest available slot before deadline
             for (int i = Math.min(job.getDeadline(), maxSlots); i >= 1; i--) {
                 if (slots[i] == null) {
                     slots[i] = job;
