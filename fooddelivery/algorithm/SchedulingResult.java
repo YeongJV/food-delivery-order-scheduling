@@ -12,11 +12,7 @@ public class SchedulingResult {
     public final double totalProfit;
     public final long executionTimeNanos;
 
-    public SchedulingResult(String algorithmName,
-                            List<Schedulable> selectedOrders,
-                            List<Schedulable> unselectedOrders,
-                            double totalProfit,
-                            long executionTimeNanos) {
+    public SchedulingResult(String algorithmName, List<Schedulable> selectedOrders, List<Schedulable> unselectedOrders, double totalProfit, long executionTimeNanos) {
         this.algorithmName = algorithmName;
         this.selectedOrders = Collections.unmodifiableList(selectedOrders);
         this.unselectedOrders = Collections.unmodifiableList(unselectedOrders);
