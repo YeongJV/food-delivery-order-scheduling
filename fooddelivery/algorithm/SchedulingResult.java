@@ -6,21 +6,37 @@ import java.util.List;
 
 public class SchedulingResult {
 
-    public final String algorithmName;
-    public final List<Schedulable> selectedOrders;
-    public final List<Schedulable> unselectedOrders;
-    public final double totalProfit;
-    public final long executionTimeNanos;
+    private final String algorithmName;
+    private final List<Schedulable> selectedOrders;
+    private final List<Schedulable> unselectedOrders;
+    private final double totalProfit;
+    private final long executionTimeNs;
 
-    public SchedulingResult(String algorithmName,
-                            List<Schedulable> selectedOrders,
-                            List<Schedulable> unselectedOrders,
-                            double totalProfit,
-                            long executionTimeNanos) {
-        this.algorithmName = algorithmName;
-        this.selectedOrders = Collections.unmodifiableList(selectedOrders);
-        this.unselectedOrders = Collections.unmodifiableList(unselectedOrders);
-        this.totalProfit = totalProfit;
-        this.executionTimeNanos = executionTimeNanos;
+    public SchedulingResult(String name,
+                            List<Schedulable> selected,
+                            List<Schedulable> unselected,
+                            double profit,
+                            long time) {
+        this.algorithmName = name;
+        this.selectedOrders = Collections.unmodifiableList(selected);
+        this.unselectedOrders = Collections.unmodifiableList(unselected);
+        this.totalProfit = profit;
+        this.executionTimeNs = time;
+    }
+
+    public String getAlgorithmName() { 
+        return algorithmName; 
+    }
+    public List<Schedulable> getSelectedOrders() { 
+        return selectedOrders; 
+    }
+    public List<Schedulable> getUnselectedOrders() { 
+        return unselectedOrders; 
+    }
+    public double getTotalProfit() { 
+        return totalProfit; 
+    }
+    public long getExecutionTimeNs() { 
+        return executionTimeNs; 
     }
 }

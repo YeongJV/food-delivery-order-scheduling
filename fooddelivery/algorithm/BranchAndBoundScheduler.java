@@ -129,11 +129,11 @@ public class BranchAndBoundScheduler extends AbstractJobScheduler {
 
     // Node
     private static class Node {
-        int level;
-        double profit;
-        boolean[] slots;
-        List<Schedulable> selected;
-        double bound;
+        private int level;
+        private double profit;
+        private boolean[] slots;
+        private List<Schedulable> selected;
+        private double bound;
 
         Node(int level, double profit, boolean[] slots, List<Schedulable> selected) {
             this.level = level;

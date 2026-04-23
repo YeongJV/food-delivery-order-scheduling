@@ -40,6 +40,25 @@ public class Order implements Schedulable {
         this(orderId, customerName, foodItem, deadline, profit, 1, "MEDIUM");
     }
 
+    @Override
+    public String toString() {
+        return orderId + " - " + customerName + " (" + foodItem + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) 
+            return true;
+        if (!(o instanceof Order)) 
+            return false;
+        Order other = (Order) o;
+        return orderId.equals(other.orderId);
+    }
+
+    @Override
+    public int hashCode() {
+        return orderId.hashCode();
+    }
 
     @Override
     public String getId() {

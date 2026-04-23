@@ -28,7 +28,9 @@ public class Main {
 
         boolean running = true;
         while (running) {
-            System.out.println("\nSELECT AN ALGORITHM:");
+            System.out.println("\n========================================");
+            System.out.println("           SELECT ALGORITHM");
+            System.out.println("========================================");
             System.out.println("  1. Branch and Bound");
             System.out.println("  2. Greedy");
             System.out.println("  3. Dynamic Programming");
@@ -49,11 +51,14 @@ public class Main {
                 ResultPrinter.printResult(result);
             }
 
-            System.out.print("\nRun again? (y/n): ");
+            System.out.println("----------------------------------------");
+            System.out.print("Run another test? [Y/N]: ");
             running = scanner.nextLine().trim().equalsIgnoreCase("y");
         }
 
-        System.out.println("Program terminated.");
+        System.out.println("\n========================================");
+        System.out.println("        PROGRAM TERMINATED");
+        System.out.println("========================================");
         scanner.close();
     }
 
@@ -78,19 +83,36 @@ public class Main {
         );
 
         List<SchedulingResult> results = new ArrayList<>();
+
         for (JobSchedulingAlgorithm algo : algorithms) {
-            results.add(algo.schedule(orders));
+            SchedulingResult result = algo.schedule(orders);
+            results.add(result);
         }
 
+        // Find fastest algorithm
+        SchedulingResult best = results.get(0);
+
+        for (SchedulingResult r : results) {
+            if (r.getExecutionTimeNs() < best.getExecutionTimeNs()) {
+                best = r;
+            }
+        }
+
+        // Print comparison table
         ResultPrinter.printComparisonTable(results);
+
+        // Print fastest algorithm
+        System.out.println("Fastest Algorithm: " + best.getAlgorithmName());
     }
 
     // Load data from file or generate random data
     private static List<Order> loadData(Scanner scanner) {
-        System.out.println("SELECT DATA INPUT:");
+        System.out.println("\n========================================");
+        System.out.println("           SELECT DATA INPUT");
+        System.out.println("========================================");
         System.out.println("  1. Load from CSV");
         System.out.println("  2. Generate random data");
-        System.out.print("Choice: ");
+        System.out.print("Your choice: ");
 
         int choice = readInt(scanner, 1, 2);
 
@@ -112,25 +134,110 @@ public class Main {
 
     // Generate random data with user input
     private static List<Order> generateInteractive(Scanner scanner) {
-        System.out.print("Number of orders [default=10]: ");
-        String s = scanner.nextLine().trim();
-        int count = s.isEmpty() ? 10 : Integer.parseInt(s);
+        int count;
 
-        System.out.print("Min deadline [default=1]: ");
-        s = scanner.nextLine().trim();
-        int minD = s.isEmpty() ? 1 : Integer.parseInt(s);
+        while (true) {
+            try {
+                System.out.print("Number of orders [default=10]: ");
+                String s = scanner.nextLine().trim();
 
-        System.out.print("Max deadline [default=6]: ");
-        s = scanner.nextLine().trim();
-        int maxD = s.isEmpty() ? 6 : Integer.parseInt(s);
+                count = s.isEmpty() ? 10 : Integer.parseInt(s);
 
-        System.out.print("Min profit [default=10]: ");
-        s = scanner.nextLine().trim();
-        double minP = s.isEmpty() ? 10.0 : Double.parseDouble(s);
+                if (count <= 0) {
+                    System.out.println("Please enter a positive number.");
+                    continue;
+                }
 
-        System.out.print("Max profit [default=100]: ");
-        s = scanner.nextLine().trim();
-        double maxP = s.isEmpty() ? 100.0 : Double.parseDouble(s);
+                break;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a number.");
+            }
+        }
+
+        int minD;
+
+        while (true) {
+            try {
+                System.out.print("Min deadline [default=1]: ");
+                String s = scanner.nextLine().trim();
+
+                minD = s.isEmpty() ? 1 : Integer.parseInt(s);
+
+                if (minD < 1) {
+                    System.out.println("Deadline must be at least 1.");
+                    continue;
+                }
+
+                break;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a number.");
+            }
+        }
+
+        int maxD;
+
+        while (true) {
+            try {
+                System.out.print("Max deadline [default=6]: ");
+                String s = scanner.nextLine().trim();
+
+                maxD = s.isEmpty() ? 6 : Integer.parseInt(s);
+
+                if (maxD < minD) {
+                    System.out.println("Max deadline must be >= Min deadline.");
+                    continue;
+                }
+
+                break;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a number.");
+            }
+        }
+
+        double minP;
+
+        while (true) {
+            try {
+                System.out.print("Min profit [default=10]: ");
+                String s = scanner.nextLine().trim();
+
+                minP = s.isEmpty() ? 10.0 : Double.parseDouble(s);
+
+                if (minP < 0) {
+                    System.out.println("Profit cannot be negative.");
+                    continue;
+                }
+
+                break;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a number.");
+            }
+        }
+
+        double maxP;
+
+        while (true) {
+            try {
+                System.out.print("Max profit [default=100]: ");
+                String s = scanner.nextLine().trim();
+
+                maxP = s.isEmpty() ? 100.0 : Double.parseDouble(s);
+
+                if (maxP < minP) {
+                    System.out.println("Max profit must be >= Min profit.");
+                    continue;
+                }
+
+                break;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter a number.");
+            }
+        }
 
         return new RandomDataGenerator().generate(count, minD, maxD, minP, maxP);
     }
@@ -146,7 +253,7 @@ public class Main {
             try {
                 int val = Integer.parseInt(scanner.nextLine().trim());
                 if (val >= min && val <= max) return val;
-                System.out.printf("Enter %d-%d: ", min, max);
+                System.out.printf("Please enter a number between %d and %d: ", min, max);
             } catch (NumberFormatException e) {
                 System.out.printf("Invalid input. Enter %d-%d: ", min, max);
             }
