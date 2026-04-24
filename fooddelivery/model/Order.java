@@ -65,10 +65,12 @@ public class Order implements Schedulable {
         return orderId;
     }
 
+    @Override
     public String getName() {
         return customerName;
     }
 
+    @Override
     public String getFood() {
         return foodItem;
     }
@@ -94,10 +96,9 @@ public class Order implements Schedulable {
 
     @Override
     public String getSummary() {
-        return orderId + " | " + customerName + " | " + foodItem +
-               " | Deadline: " + deadline +
-               " | Profit: " + profit +
-               " | Time: " + processingTime +
-               " | Priority: " + priority;
+        return String.format(
+            "%s | %s | %s | Deadline: %d | Profit: RM %.2f | Priority: %s",
+            orderId, customerName, foodItem, deadline, profit, priority
+        );
     }
 }

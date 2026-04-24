@@ -51,9 +51,19 @@ public class Main {
                 ResultPrinter.printResult(result);
             }
 
-            System.out.println("----------------------------------------");
-            System.out.print("Run another test? [Y/N]: ");
-            running = scanner.nextLine().trim().equalsIgnoreCase("y");
+            while (true) {
+                System.out.print("\nRun another test? [Y/N]: ");
+                String answer = scanner.nextLine().trim().toLowerCase();
+                if (answer.equals("y")) { 
+                    running = true;  
+                    break; 
+                }
+                if (answer.equals("n")) { 
+                    running = false; 
+                    break; 
+                }
+                System.out.println("Invalid input. Please enter Y or N.");
+            }
         }
 
         System.out.println("\n========================================");
@@ -124,7 +134,7 @@ public class Main {
             try {
                 return new FileHandler().loadFromFile(path);
             } catch (IOException e) {
-                System.out.println("Error loading file. Using default data.");
+                System.out.println("Using default data...");
                 return generateDefault();
             }
         } else {

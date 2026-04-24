@@ -8,7 +8,7 @@ public class DynamicProgrammingScheduler extends AbstractJobScheduler {
     //Returns algorithm name for display
     @Override 
     public String getAlgorithmName()  { 
-        return "Dynamic Programming (DP Table)"; 
+        return "Dynamic Programming"; 
     }
 
     //Returns theoretical time complexity

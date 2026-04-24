@@ -60,13 +60,6 @@ public abstract class AbstractJobScheduler implements JobSchedulingAlgorithm {
                 .orElse(0);
     }
 
-    public void printAlgorithmHeader() {
-        System.out.println("Running: " + getAlgorithmName());
-        System.out.println("Description: " + getDescription());
-        System.out.println("Time Complexity: " + getTimeComplexity());
-        System.out.println();
-    }
-
     protected static class AlgorithmOutput {
         public final List<Schedulable> selected;
 
